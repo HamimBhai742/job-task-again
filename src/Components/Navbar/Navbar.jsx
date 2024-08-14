@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
+    const { user, logoutUser } = useAuth()
+    console.log(user);
+    const handelLogOutBtn = () => {
+        logoutUser()
+    }
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
@@ -40,12 +46,30 @@ const Navbar = () => {
                 <ul className="menu menu-horizontal px-1 gap-4">
                     <NavLink className='text-lg font-medium' to='/'>Home</NavLink>
                     <NavLink className='text-lg font-medium' to='/product'>Product</NavLink>
+                    <NavLink className='text-lg font-medium' to='/add-product'>Add Product</NavLink>
                 </ul>
             </div>
             <div className="navbar-end">
-               <Link to='/register'><button className='bg-'>Sign Up</button></Link>
+                {user ? <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                        <div className="w-10 rounded-full">
+                            <img
+                                alt="Tailwind CSS Navbar component"
+                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                        </div>
+                    </div>
+                    <ul
+                        tabIndex={0}
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                        <li>
+                            <Link>Profile</Link>
+                        </li>
+                        <li><Link to='/'><button onClick={handelLogOutBtn}>Sign Out</button></Link></li>
+                    </ul>
+                </div>
+                    : <Link to='/register'><button className='bg-'>Sign Up</button></Link>}
             </div>
-        </div>
+        </div >
     );
 };
 
