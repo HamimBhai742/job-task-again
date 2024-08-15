@@ -1,16 +1,54 @@
+import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
+const API_KEY = import.meta.env.VITE_IMAGE_API_KEY
+const Hosting = `https://api.imgbb.com/1/upload?key=${API_KEY}`
 const AddProduct = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const axiosPublic = useAxiosPublic()
     const onSubmit = async (data) => {
         console.log(data);
+        const imgeFile = { image: data.productImg[0] }
+        console.log(imgeFile, 'imgfile');
+        const res = await axios.post(Hosting, imgeFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        console.log(res.data.data.display_url);
+        const timeAndDate = new Date().toLocaleString()
+        console.log(timeAndDate);
+
+        const addProduct = {
+            productName: data.productName,
+            productImg: res.data.data.display_url,
+            productRating: data.productRating,
+            productCategory: data.productCategory,
+            productDescription: data.productDescription,
+            productPrice: data.productPrice,
+            productAddingTime: timeAndDate
+
+        }
+        console.log(addProduct);
+
+        const resProduct = await axiosPublic.post('/products',addProduct)
+        console.log(resProduct.data);
+
+        if(resProduct.data.insertedId){
+            Swal.fire({
+                title: "Thank You!",
+                text: "Your product added successfully!",
+                icon: "success"
+              });
+        }
     }
     return (
         <section className="dark:bg-gray-100 dark:text-gray-900 max-sm:w-[350px] mx3 bg-teal-100 rounded-lg lg:mx-16 my-6">
             <div className="space-y-2 col-span-full lg:col-span-1 text-center pt-5">
                 <p className="font-cinzel lg:text-4xl text-2xl font-bold">Add Product</p>
-                <p className="text-xs max-w-96 mx-auto font-inter">Add your favorite contest.Mention the price along with the contest.Also mention the date line of adding the contest.</p>
+                <p className="text-xs max-w-96 mx-auto font-inter">Add your favorite product.Mention the price along with the product.Also mention the time and date of adding the product.</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} noValidate="" action="" className="container p-6 font-lato">
                 <fieldset className="grid grid-cols-2 gap-6 p-6 rounded-md dark:bg-gray-50">
@@ -21,20 +59,30 @@ const AddProduct = () => {
                         </div>
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Category</label>
-                            <input {...register('productCategory')} type="text" placeholder="Contest Name" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            <select {...register('productCategory')} className="select select-bordered w-full ">
+                                <option disabled selected>Select your category</option>
+                                <option value='Electronics'>Electronics</option>
+                                <option value='Fashion'>Fashion</option>
+                                <option value='Home and Kitchen'>Home and Kitchen</option>
+                                <option value='Health and Beauty'>Health and Beauty</option>
+                                <option value='Books and Stationery'>Books and Stationery</option>
+                            </select>
                         </div>
                         <div className="col-span-full">
                             <label className="text-sm font-semibold">Product Description</label>
-                            <textarea {...register('productDescription')} placeholder='Contest Description....' className="w-full pt-1 pl-3 h-20 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"></textarea>
+                            <textarea {...register('productDescription')} placeholder='Product Description....' className="w-full pt-1 pl-3 h-20 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"></textarea>
                         </div>
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Price</label>
-                            <input {...register("productPrice")} type="number" placeholder="Contest Price" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            <input {...register("productPrice", { pattern: /^\d*\.?\d*$/ })} type="text" placeholder="Product Price" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            {
+                                errors.productPrice && <p className='text-red-600'>Please provide only number</p>
+                            }
                         </div>
 
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Rating</label>
-                            <input {...register("productRating", { min: 0, max: 5 })} type="number" placeholder="Contest Price" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            <input {...register("productRating", { min: 0, max: 5 })} type="number" placeholder="Product Rating" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
                             {
                                 errors.productRating && <p className='text-red-600'>Please provide rating only 0 to 5</p>
                             }
@@ -43,7 +91,7 @@ const AddProduct = () => {
                         <div className="col-span-full sm:col-span-3">
                             <label htmlFor="state" className="text-sm font-semibold">Product Image</label>
                             <input {...register('productImg')} type="file" className="file-input w-full" />
-                           
+
                         </div>
 
                         <div className="col-span-full">
