@@ -11,7 +11,7 @@ const Products = () => {
     const [counts, setCounts] = useState(productsCount)
     const [products, setProducts] = useState([])
     const [selectedValue, setSelected] = useState()
-
+    const [selectedValued, setSelectedValued] = useState()
     const [open, setOpen] = useState(false)
 
     const handelOpenBtn = () => {
@@ -20,35 +20,13 @@ const Products = () => {
 
     useEffect(() => {
         async function fetchDatas() {
-            // console.log(search);
             const cou = await axiosPublic.get('/productsCount')
-            //         return cou.data.count;
             setCounts(cou.data.count)
         }
         fetchDatas()
     }, [])
-    console.log(counts);
-    // console.log(productsCount);
-
-    // const { data: productsCount = [] } = useQuery({
-    //     queryKey: ['productsCount'],
-    //     queryFn: async () => {
-    //         const cou = await axiosPublic.get('/productsCount')
-    //         return cou.data.count;
-    //     }
-    // })
-    // console.log(counts);
-    // useEffect(async () => {
-    //     const cou = await axiosPublic.get('/productsCount')
-    //     console.log(cou.data);
-    // }, [])
-    // const totalItem = parseInt(counts)
-    // console.log(totalItem);
     const [itemPerPage, setItemPerPage] = useState(5)
     const [currentPage, setCurrentPage] = useState(0)
-    // const [minPrice, setMinPrice] = useState(null)
-    // const [maxPrice, setMaxPrice] = useState(null)
-    // const [search, setSearch] = useState('')
     const handelPerPage = (e) => {
         setItemPerPage(e.target.value)
         setCurrentPage(0)
@@ -64,14 +42,20 @@ const Products = () => {
             setCurrentPage(currentPage + 1)
         }
     }
-    // console.log(totalItem);
-    // console.log(counts);
     const numberOfPage = Math.ceil(counts / itemPerPage)
-    console.log(numberOfPage);
     const pages = [...Array(numberOfPage).keys()]
-    console.log(currentPage);
     const handelSort = (e) => {
-        setSelected(e.target.value)
+        if (e.target.value === 'asc' || e.target.value === 'desc') {
+            setSelectedValued()
+            setSelected(e.target.value)
+        }
+        else {
+            setSelected()
+            setSelectedValued(e.target.value)
+        }
+    }
+    if (selectedValued === 'recently') {
+        const yes = products.sort((a, b) => (a.productAddingTime < b.productAddingTime) ? 1 : (a.productAddingTime > b.productAddingTime) ? -1 : 0);
     }
 
     const handelSearchBtn = async (e) => {
@@ -85,71 +69,28 @@ const Products = () => {
     const handelCategorization = async (e) => {
         e.preventDefault()
         const form = e.target
-        // console.log(form.rr.value);
-        // console.log(form.tt.value);
         const brandName = form.brandName.value
         const productCategory = form.productCategory.value
         const minPrice = form.minPrice.value
         const maxPrice = form.maxPrice.value
-        const res = await axiosPublic.get(`/products?minPrice=${minPrice}&maxPrice=${maxPrice}`)
-        console.log(res.data);
+        const res = await axiosPublic.get(`/productsCategorization?minPrice=${minPrice}&maxPrice=${maxPrice}&brandName=${brandName}&productCategory=${productCategory}`)
         setProducts(res.data);
         setCounts(res.data.length)
-        // setMinPrice(minPrice)
-        // setMaxPrice(maxPrice)
         setOpen(false)
-        console.log(brandName, productCategory, minPrice, maxPrice);
     }
+
     useEffect(() => {
         async function fetchDatas() {
-            // console.log(search);
-            const ress = await axiosPublic.get(`/productsPage?page=${currentPage}&&size=${itemPerPage}`)
+            const ress = await axiosPublic.get(`/productsPage?page=${currentPage}&&size=${itemPerPage}&&sort=${selectedValue}&&date=${selectedValued}`)
             setProducts(ress.data)
         }
         fetchDatas()
-        console.log(products.length);
-    }, [currentPage, itemPerPage])
-    
-    console.log(open);
-    // console.log(maxPrice, minPrice);
+    }, [currentPage, itemPerPage, selectedValue, selectedValued])
 
-    // const { data: searchProduct = [] } = useQuery({
-    //     queryKey: ['searchProduct'],
-    //     queryFn: async () => {
-    //         const se = await axiosPublic.get('/searchProduct')
-    //         return se.data;
-    //     }
-    // })
-    // console.log(searchProduct);
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         console.log(search);
-
-    //         console.log(res.data.length);
-    //         setProducts(res.data)
-    //     }
-    //     fetchData()
-    //     console.log(products.length);
-    // }, [search, maxPrice, minPrice])
-
-    // fetchData()
-    if (selectedValue === 'asc') {
-        const no = products.sort((a, b) => (a.productPrice < b.productPrice) ? -1 : (a.productPrice > b.productPrice) ? 1 : 0);
-    }
-    else if (selectedValue === 'desc') {
-        const yes = products.sort((a, b) => (a.productPrice < b.productPrice) ? 1 : (a.productPrice > b.productPrice) ? -1 : 0);
-    }
-    else if (selectedValue === 'recently') {
-        const yes = products.sort((a, b) => (a.productAddingTime < b.productAddingTime) ? 1 : (a.productAddingTime > b.productAddingTime) ? -1 : 0);
-    }
-    console.log(products);
-    // setCount(products.length)
-    // console.log(products.length);
     const brand = ['Schick', 'Breville', 'Ninja Kitchen', 'Vita-Mix Corporation', 'Unilever', 'CeraVe', 'Adidas', 'Nike', 'Sony', 'Apple', 'Samsung']
     const category = ['Electronics', 'Fashion', 'Home and Kitchen', 'Health and Beauty', 'Books and Stationery']
     return (
         <div className='mx-10'>
-
             <div className='flex justify-between items-center'>
                 <div className='flex gap-3 mb-3'>
                     <form onSubmit={handelSearchBtn} className='flex gap-3'>
@@ -173,7 +114,7 @@ const Products = () => {
 
                 <div>
                     <button onClick={handelOpenBtn} className='text-5xl'><MdOutlineMenuOpen /></button>
-                    <div className={open? 'mb-3':'hidden'}>
+                    <div className={open ? 'mb-3' : 'hidden'}>
                         <form onSubmit={handelCategorization}>
                             <h3 className='text-2xl font-semibold'>Brand Name</h3>
                             <div className='grid grid-cols-2'>
