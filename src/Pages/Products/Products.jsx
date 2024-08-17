@@ -83,7 +83,7 @@ const Products = () => {
         fetchDatas()
     }, [currentPage, itemPerPage, selectedValue])
 
-    const brand = ['Schick', 'Breville', 'Ninja Kitchen', 'Vita-Mix Corporation', 'Unilever', 'CeraVe', 'Adidas', 'Nike', 'Sony', 'Apple', 'Samsung','Pilot','Moleskine']
+    const brand = ['Breville', 'Ninja Kitchen', 'Vita-Mix Corporation', 'Unilever', 'CeraVe', 'Adidas', 'Nike', 'Sony', 'Apple', 'Samsung','Pilot','Moleskine','La Mer']
     const category = ['Electronics', 'Fashion', 'Home and Kitchen', 'Health and Beauty', 'Books and Stationery']
     return (
         <div className='lg:mx-10 md:mx-5 mx-3'>
