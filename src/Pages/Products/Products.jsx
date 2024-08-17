@@ -12,12 +12,7 @@ const Products = () => {
     const productsCount = useProductCount()
     const [counts, setCounts] = useState(productsCount)
     const [products, setProducts] = useState([])
-<<<<<<< HEAD
     const [selectedValue, setSelected] = useState(null)
-=======
-    const [selectedValue, setSelected] = useState()
-    const [selectedValued, setSelectedValued] = useState()
->>>>>>> c058ccc4e2bb36fbc1d054f3a69c453e25d3a281
     const [open, setOpen] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(12)
     const [currentPage, setCurrentPage] = useState(0)
@@ -29,21 +24,13 @@ const Products = () => {
     useEffect(() => {
         async function fetchDatas() {
             const cou = await axiosPublic.get('/productsCount')
-<<<<<<< HEAD
             console.log(cou.data);
-=======
->>>>>>> c058ccc4e2bb36fbc1d054f3a69c453e25d3a281
             setCounts(cou.data.count)
         }
         fetchDatas()
     }, [])
-<<<<<<< HEAD
 
 
-=======
-    const [itemPerPage, setItemPerPage] = useState(5)
-    const [currentPage, setCurrentPage] = useState(0)
->>>>>>> c058ccc4e2bb36fbc1d054f3a69c453e25d3a281
     const handelPerPage = (e) => {
         setItemPerPage(e.target.value)
         setCurrentPage(0)
@@ -100,7 +87,6 @@ const Products = () => {
 
     useEffect(() => {
         async function fetchDatas() {
-<<<<<<< HEAD
             const ress = await axiosPublic.get(`/productsPage?page=${currentPage}&&size=${itemPerPage}&&sorting=${selectedValue}`)
             setProducts(ress.data)
         }
@@ -112,19 +98,6 @@ const Products = () => {
     return (
         <div className='lg:mx-10 md:mx-5 mx-3'>
             <div className='lg:flex justify-between items-center'>
-=======
-            const ress = await axiosPublic.get(`/productsPage?page=${currentPage}&&size=${itemPerPage}&&sort=${selectedValue}&&date=${selectedValued}`)
-            setProducts(ress.data)
-        }
-        fetchDatas()
-    }, [currentPage, itemPerPage, selectedValue, selectedValued])
-
-    const brand = ['Schick', 'Breville', 'Ninja Kitchen', 'Vita-Mix Corporation', 'Unilever', 'CeraVe', 'Adidas', 'Nike', 'Sony', 'Apple', 'Samsung']
-    const category = ['Electronics', 'Fashion', 'Home and Kitchen', 'Health and Beauty', 'Books and Stationery']
-    return (
-        <div className='mx-10'>
-            <div className='flex justify-between items-center'>
->>>>>>> c058ccc4e2bb36fbc1d054f3a69c453e25d3a281
                 <div className='flex gap-3 mb-3'>
                     <form onSubmit={handelSearchBtn} className='flex gap-3'>
                         <input
