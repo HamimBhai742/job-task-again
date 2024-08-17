@@ -113,7 +113,7 @@ const Products = () => {
                     <div className={open ? 'mb-3' : 'hidden'}>
                         <form onSubmit={handelCategorization}>
                             <h3 className='text-2xl font-semibold'>Brand Name</h3>
-                            <div className='grid grid-cols-2'>
+                            <div className='grid grid-cols-2 gap-1'>
                                 {
                                     brand.map(b => <>
                                         <div className='flex gap-1'>
