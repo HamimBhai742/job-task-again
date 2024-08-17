@@ -50,17 +50,7 @@ const Products = () => {
     const numberOfPage = Math.ceil(counts / itemPerPage)
     const pages = [...Array(numberOfPage).keys()]
     const handelSort = (e) => {
-        if (e.target.value === 'asc' || e.target.value === 'desc') {
-            setSelectedValued()
-            setSelected(e.target.value)
-        }
-        else {
-            setSelected()
-            setSelectedValued(e.target.value)
-        }
-    }
-    if (selectedValued === 'recently') {
-        const yes = products.sort((a, b) => (a.productAddingTime < b.productAddingTime) ? 1 : (a.productAddingTime > b.productAddingTime) ? -1 : 0);
+        setSelected(e.target.value)
     }
 
 

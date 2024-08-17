@@ -55,15 +55,15 @@ const AddProduct = () => {
                     <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Brand Name</label>
-                            <input {...register('brandName')} type="text" placeholder="Brand Name" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            <input required {...register('brandName')} type="text" placeholder="Brand Name" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
                         </div>
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Name</label>
-                            <input {...register('productName')} type="text" placeholder="Product Name" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            <input required {...register('productName')} type="text" placeholder="Product Name" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
                         </div>
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Category</label>
-                            <select {...register('productCategory')} className="select select-bordered w-full ">
+                            <select required {...register('productCategory')} className="select select-bordered w-full ">
                                 <option disabled selected>Select your category</option>
                                 <option value='Electronics'>Electronics</option>
                                 <option value='Fashion'>Fashion</option>
@@ -75,7 +75,7 @@ const AddProduct = () => {
 
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Price</label>
-                            <input {...register("productPrice", { pattern: /^\d*\.?\d*$/ })} type="text" placeholder="Product Price" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            <input required {...register("productPrice", { pattern: /^\d*\.?\d*$/ })} type="text" placeholder="Product Price" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
                             {
                                 errors.productPrice && <p className='text-red-600'>Please provide only number</p>
                             }
@@ -83,12 +83,12 @@ const AddProduct = () => {
 
                         <div className="col-span-full">
                             <label className="text-sm font-semibold">Product Description</label>
-                            <textarea {...register('productDescription')} placeholder='Product Description....' className="w-full pt-1 pl-3 h-20 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"></textarea>
+                            <textarea required {...register('productDescription')} placeholder='Product Description....' className="w-full pt-1 pl-3 h-20 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"></textarea>
                         </div>
 
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Rating</label>
-                            <input {...register("productRating", { min: 0, max: 5, pattern: /^\d*\.?\d*$/ })} type="text" placeholder="Product Rating" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
+                            <input required {...register("productRating", { min: 0, max: 5, pattern: /^\d*\.?\d*$/ })} type="text" placeholder="Product Rating" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />
                             {
                                 errors.productRating && <p className='text-red-600'>Please provide rating only 0 to 5</p>
                             }
@@ -96,7 +96,7 @@ const AddProduct = () => {
 
                         <div className="col-span-full sm:col-span-3">
                             <label htmlFor="state" className="text-sm font-semibold">Product Image</label>
-                            <input {...register('productImg')} type="file" className="file-input w-full" />
+                            <input required {...register('productImg')} type="file" className="file-input w-full" />
 
                         </div>
 

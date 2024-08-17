@@ -66,7 +66,7 @@ const Navbar = () => {
                             <li><Link to='/'><button onClick={handelLogOutBtn}>Sign Out</button></Link></li>
                         </ul>
                     </div>
-                        : <Link to='/register'><button className='bg-'>Sign Up</button></Link>}
+                        : <Link to='/register'><button className='border-2 border-green-600 py-2 px-3 rounded-lg'>Sign Up</button></Link>}
                 </div>
             </div >
         </div>

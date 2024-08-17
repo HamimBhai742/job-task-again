@@ -1,14 +1,18 @@
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import img from '../../ProductImage/images.jpg'
 import Swal from 'sweetalert2';
+import { useState } from 'react';
+import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 
 const API_KEY = import.meta.env.VITE_IMAGE_API_KEY
 const Hosting = `https://api.imgbb.com/1/upload?key=${API_KEY}`
 const Register = () => {
     const { registerUser, updateUserProfile, googleLogin } = useAuth()
+    const navigate = useNavigate()
+    const [showPass, setShowPass] = useState(false)
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = async (data) => {
         console.log(data);
@@ -35,19 +39,25 @@ const Register = () => {
                         icon: "success"
                     });
                     reset()
+                    navigate('/')
                 }
             })
             .catch(error => {
+                console.log(error);
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
                     text: "This email already register!",
                 });
-
             })
     }
     const handelGoogleLogin = () => {
         googleLogin()
+        navigate('/')
+    }
+
+    const handelShowBtn = () => {
+        setShowPass(!showPass)
     }
     return (
         <div className="w-full max-w-[500px] p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -58,26 +68,27 @@ const Register = () => {
             <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <label className="block text-gray-800 font-medium">Name</label>
-                    <input {...register('name')} type="text" placeholder='Enter your full name' className="block w-full px-4 py-3 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <input {...register('name')} required type="text" placeholder='Enter your full name' className="block w-full px-4 py-3 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
                 </div>
 
                 <div>
                     <label className="block text-gray-800 font-medium">Email</label>
-                    <input {...register('email')} type="email" placeholder='Enter your email' className="block w-full px-4 py-3 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <input required {...register('email')} type="email" placeholder='Enter your email' className="block w-full px-4 py-3 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 relative">
                     <div className="flex items-center justify-between">
                         <label for="password" className="block text-gray-800 font-medium">Password</label>
                     </div>
 
-                    <input {...register('password', { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/ })} type="password" placeholder='Enter your password' className="block w-full px-4 py-3 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <input  required {...register('password', { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/ })} type={showPass ? 'text' : 'password'} placeholder='Enter your password' className="block w-full px-4 py-3 mt-2 text-gray-700 bg-white  border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <button className='absolute text-2xl right-3 bottom-3' onClick={handelShowBtn}>{showPass ? <IoMdEyeOff></IoMdEyeOff> : <IoMdEye></IoMdEye>}</button>
                     {
                         errors.password && <p className='text-red-600'>Please provide a strong password</p>
                     }
                 </div>
                 <div className='mt-4'>
-                    <input {...register('photo')} type="file" className="file-input file-input-bordered w-full max-w-xs" />
+                    <input required {...register('photo')} type="file" className="file-input file-input-bordered w-full max-w-xs" />
                 </div>
                 <div className="mt-6">
                     <button className="w-full px-6 py-3 text-lg font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
