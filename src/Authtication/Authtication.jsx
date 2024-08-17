@@ -5,13 +5,16 @@ import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStat
 export const AuthContext = createContext(null)
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [loder, setLoder] = useState(true)
     const googleProvider = new GoogleAuthProvider()
     const auth = getAuth(app)
     const registerUser = (email, password) => {
+        setLoder(true)
         console.log(email, password);
         return createUserWithEmailAndPassword(auth, email, password)
     }
     const updateUserProfile = (photo, name) => {
+        setLoder(true)
         return updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: photo
@@ -19,11 +22,12 @@ const AuthProvider = ({ children }) => {
     }
 
     const loginUser = (email, password) => {
+        setLoder(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
 
     const googleLogin = () => {
-        return signInWithPopup(auth,googleProvider)
+        return signInWithPopup(auth, googleProvider)
     }
     const logoutUser = () => {
         signOut(auth)
@@ -32,6 +36,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const UnSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
+            setLoder(false)
         })
         return () => {
             UnSubscribe()
@@ -43,7 +48,8 @@ const AuthProvider = ({ children }) => {
         user,
         logoutUser,
         loginUser,
-        googleLogin
+        googleLogin,
+        loder
     }
 
     return (

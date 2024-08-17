@@ -20,6 +20,7 @@ const AddProduct = () => {
         })
         console.log(res.data.data.display_url);
         const timeAndDate = new Date().toLocaleString()
+        const time = new Date()
         console.log(timeAndDate);
 
         const addProduct = {
@@ -30,7 +31,8 @@ const AddProduct = () => {
             productCategory: data.productCategory,
             productDescription: data.productDescription,
             productPrice: parseFloat(data.productPrice),
-            productAddingTime: timeAndDate
+            productAddingTime: timeAndDate,
+            productDaTa: time
 
         }
         console.log(addProduct);
@@ -48,7 +50,7 @@ const AddProduct = () => {
         }
     }
     return (
-        <section className="dark:bg-gray-100 dark:text-gray-900 max-sm:w-[350px] mx3 bg-teal-100 rounded-lg lg:mx-16 my-6">
+        <section className="dark:bg-gray-100 dark:text-gray-900 max-sm:w-[350px] md:mx-5 mx-3 bg-teal-100 rounded-lg lg:mx-16  my-6">
             <div className="space-y-2 col-span-full lg:col-span-1 text-center pt-5">
                 <p className="font-cinzel lg:text-4xl text-2xl font-bold">Add Product</p>
                 <p className="text-xs max-w-96 mx-auto font-inter">Add your favorite product.Mention the price along with the product.Also mention the time and date of adding the product.</p>
@@ -88,7 +90,7 @@ const AddProduct = () => {
                             <label className="text-sm font-semibold">Product Description</label>
                             <textarea {...register('productDescription')} placeholder='Product Description....' className="w-full pt-1 pl-3 h-20 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"></textarea>
                         </div>
-            
+
                         <div className="col-span-full sm:col-span-3">
                             <label className="text-sm font-semibold">Product Rating</label>
                             <input {...register("productRating", { min: 0, max: 5, pattern: /^\d*\.?\d*$/ })} type="text" placeholder="Product Rating" className="w-full h-12 pl-3 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300" />

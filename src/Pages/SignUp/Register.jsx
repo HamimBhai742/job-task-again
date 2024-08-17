@@ -2,12 +2,14 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import img from '../../ProductImage/images.jpg'
+import Swal from 'sweetalert2';
 
 const API_KEY = import.meta.env.VITE_IMAGE_API_KEY
 const Hosting = `https://api.imgbb.com/1/upload?key=${API_KEY}`
 const Register = () => {
     const { registerUser, updateUserProfile, googleLogin } = useAuth()
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } ,reset} = useForm();
     const onSubmit = async (data) => {
         console.log(data);
         const imgeFile = { image: data.photo[0] }
@@ -26,6 +28,14 @@ const Register = () => {
             .then(userData => {
                 updateUserProfile(photo, name)
                 console.log(userData.user);
+                if (userData.user) {
+                    Swal.fire({
+                        title: "Thank You!",
+                        text: "Your register successfully!",
+                        icon: "success"
+                    });
+                    reset()
+                }
             })
             .catch(error => console.log(error))
     }
@@ -33,9 +43,9 @@ const Register = () => {
         googleLogin()
     }
     return (
-        <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div className="w-full max-w-[500px] p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div className="flex justify-center mx-auto">
-                <img className="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt="" />
+                <img className="w-36" src={img} alt="" />
             </div>
 
             <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>

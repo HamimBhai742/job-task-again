@@ -2,10 +2,11 @@ import React from 'react';
 import useAuth from '../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import img from '../../ProductImage/images.jpg'
 
 const Login = () => {
     const { loginUser, googleLogin } = useAuth()
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } ,reset} = useForm();
     const onSubmit = async (data) => {
         console.log(data);
         const email = data.email
@@ -13,6 +14,14 @@ const Login = () => {
         loginUser(email, password)
             .then(userData => {
                 console.log(userData.user);
+                if (userData.user) {
+                    Swal.fire({
+                        title: "Thank You!",
+                        text: "Your login successfully!",
+                        icon: "success"
+                    });
+                    reset()
+                }
             })
             .catch(error => console.log(error))
     }
@@ -21,9 +30,9 @@ const Login = () => {
         googleLogin()
     }
     return (
-        <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div className="w-full max-w-[500px] p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div className="flex justify-center mx-auto">
-                <img className="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt="" />
+                <img className="w-36" src={img} alt="" />
             </div>
 
             <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
