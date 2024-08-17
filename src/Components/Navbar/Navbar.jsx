@@ -10,7 +10,11 @@ const Navbar = () => {
         logoutUser()
     }
     return (
+<<<<<<< HEAD
         <div className='lg:mx-10 md:mx-5 mx-3'>
+=======
+        <div className='mx-10'>
+>>>>>>> c058ccc4e2bb36fbc1d054f3a69c453e25d3a281
             <div className="navbar bg-base-100">
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -31,6 +35,7 @@ const Navbar = () => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+<<<<<<< HEAD
                             <NavLink className='text-lg font-medium' to='/'>Home</NavLink>
                             <NavLink className='text-lg font-medium' to='/product'>Product</NavLink>
                             <NavLink className='text-lg font-medium' to='/add-product'>Add Product</NavLink>
@@ -38,6 +43,21 @@ const Navbar = () => {
                     </div>
                     <div className='flex items-center'>
                         <img className='w-16 h-16 rounded-full max-sm:hidden' src={img} alt="" />
+=======
+                            <li><a>Item 1</a></li>
+                            <li>
+                                <a>Parent</a>
+                                <ul className="p-2">
+                                    <li><a>Submenu 1</a></li>
+                                    <li><a>Submenu 2</a></li>
+                                </ul>
+                            </li>
+                            <li><a>Item 3</a></li>
+                        </ul>
+                    </div>
+                    <div className='flex gap-0 items-center'>
+                        <img className='w-16 h-16 rounded-full' src={img} alt="" />
+>>>>>>> c058ccc4e2bb36fbc1d054f3a69c453e25d3a281
                         <a className="btn btn-ghost text-2xl">Crazy Shop</a>
                     </div>
                 </div>
@@ -50,10 +70,17 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-end">
                     {user ? <div className="dropdown dropdown-end">
+<<<<<<< HEAD
                         <div tabIndex={0} role="button" className="md:w-14 md:h-14 w-12 h-12 rounded-full">
                             <div className="">
                                 <img
                                     className="md:w-14 md:h-14 w-12 h-12 rounded-full"
+=======
+                        <div tabIndex={0} role="button" className="w-14 h-14 rounded-full">
+                            <div className="">
+                                <img
+                                    className="w-14 h-14 rounded-full"
+>>>>>>> c058ccc4e2bb36fbc1d054f3a69c453e25d3a281
                                     src={user?.photoURL} />
                             </div>
                         </div>
