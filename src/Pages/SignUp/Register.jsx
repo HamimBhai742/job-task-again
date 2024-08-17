@@ -9,7 +9,7 @@ const API_KEY = import.meta.env.VITE_IMAGE_API_KEY
 const Hosting = `https://api.imgbb.com/1/upload?key=${API_KEY}`
 const Register = () => {
     const { registerUser, updateUserProfile, googleLogin } = useAuth()
-    const { register, handleSubmit, formState: { errors } ,reset} = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = async (data) => {
         console.log(data);
         const imgeFile = { image: data.photo[0] }
@@ -37,7 +37,14 @@ const Register = () => {
                     reset()
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "This email already register!",
+                });
+
+            })
     }
     const handelGoogleLogin = () => {
         googleLogin()

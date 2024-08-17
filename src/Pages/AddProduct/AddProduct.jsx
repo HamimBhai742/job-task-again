@@ -21,7 +21,6 @@ const AddProduct = () => {
         console.log(res.data.data.display_url);
         const timeAndDate = new Date().toLocaleString()
         const time = new Date()
-        console.log(timeAndDate);
 
         const addProduct = {
             productName: data.productName,
@@ -35,11 +34,7 @@ const AddProduct = () => {
             productDaTa: time
 
         }
-        console.log(addProduct);
-
         const resProduct = await axiosPublic.post('/products', addProduct)
-        console.log(resProduct.data);
-
         if (resProduct.data.insertedId) {
             Swal.fire({
                 title: "Thank You!",

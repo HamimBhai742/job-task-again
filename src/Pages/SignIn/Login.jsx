@@ -23,7 +23,13 @@ const Login = () => {
                     reset()
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Incorrect your email or password!",
+                });
+            })
     }
 
     const handelGoogleLogin = () => {
