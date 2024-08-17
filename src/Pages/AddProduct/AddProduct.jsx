@@ -35,6 +35,7 @@ const AddProduct = () => {
 
         }
         const resProduct = await axiosPublic.post('/products', addProduct)
+        console.log(resProduct.data);
         if (resProduct.data.insertedId) {
             Swal.fire({
                 title: "Thank You!",
