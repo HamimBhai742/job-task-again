@@ -21,7 +21,7 @@ const Footer = () => {
                     </div>
                 </nav>
             </footer>
-            <aside className='flex justify-center bg-gray-400'>
+            <aside className='flex justify-center text-center bg-gray-400'>
                 <p>Copyright © {new Date().getFullYear()} - All right reserved by ACME Industries Ltd</p>
             </aside>
         </section>
